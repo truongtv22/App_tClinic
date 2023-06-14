@@ -15,6 +15,7 @@ import { useFonts } from "expo-font"
 import React from "react"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 import * as Linking from "expo-linking"
+import tw, { useDeviceContext } from 'twrnc';
 import { useInitialRootStore } from "./models"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { ErrorBoundary } from "./screens/ErrorScreen/ErrorBoundary"
@@ -76,6 +77,8 @@ function App(props: AppProps) {
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
+  useDeviceContext(tw);
+  
   const [areFontsLoaded] = useFonts(customFontsToLoad)
 
   const { rehydrated } = useInitialRootStore(() => {

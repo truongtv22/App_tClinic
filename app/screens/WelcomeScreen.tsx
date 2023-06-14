@@ -1,212 +1,47 @@
 import { observer } from "mobx-react-lite"
-import React, { FC, useEffect, useRef } from "react"
+import React, { FC } from "react"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+// import { tw } from "react-native-tailwindcss"
+import tw from "twrnc"
 import {
-  Image,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-  Dimensions,
-  SafeAreaView,
-} from "react-native"
-import { Text } from "../components"
+  Button, // @demo remove-current-line
+  Text,
+} from "../components"
 import { isRTL } from "../i18n"
+import { useStores } from "../models" // @demo remove-current-line
+import { AppStackScreenProps } from "../navigators" // @demo remove-current-line
 import { colors, spacing } from "../theme"
+import { useHeader } from "../utils/useHeader" // @demo remove-current-line
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
-import * as echarts from "echarts/core"
-import { BarChart, LineChart } from "echarts/charts"
-import {
-  GridComponent,
-  ToolboxComponent,
-  LegendComponent,
-  TooltipComponent,
-  DataZoomComponent,
-} from "echarts/components"
-import { SVGRenderer, SkiaChart } from "@wuba/react-native-echarts"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
-echarts.use([
-  SVGRenderer,
-  BarChart,
-  LineChart,
-  GridComponent,
-  ToolboxComponent,
-  LegendComponent,
-  TooltipComponent,
-  DataZoomComponent,
-])
+export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
+  _props, // @demo remove-current-line
+) {
+  // @demo remove-block-start
+  const { navigation } = _props
+  const {
+    authenticationStore: { logout },
+  } = useStores()
 
-const E_HEIGHT = 400
-const E_WIDTH = Dimensions.get("window").width
+  function goNext() {
+    navigation.navigate("Demo", { screen: "DemoShowroom" })
+  }
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
-
-  const skiaRef = useRef<any>(null)
-
-  useEffect(() => {
-    const categories = (function () {
-      let now = new Date()
-      const res = []
-      let len = 10
-      while (len--) {
-        res.unshift(now.toLocaleTimeString().replace(/^\D*/, ""))
-        now = new Date(+now - 2000)
-      }
-      return res
-    })()
-    const categories2 = (function () {
-      const res = []
-      let len = 10
-      while (len--) {
-        res.push(10 - len - 1)
-      }
-      return res
-    })()
-    const data = (function () {
-      const res = []
-      let len = 10
-      while (len--) {
-        res.push(Math.round(Math.random() * 1000))
-      }
-      return res
-    })()
-    const data2 = (function () {
-      const res = []
-      let len = 0
-      while (len < 10) {
-        res.push(+(Math.random() * 10 + 5).toFixed(1))
-        len++
-      }
-      return res
-    })()
-    const option = {
-      tooltip: {
-        trigger: "axis",
-        axisPointer: {
-          type: "cross",
-          label: {
-            backgroundColor: "#283b56",
-          },
-        },
-      },
-      legend: {},
-      toolbox: {
-        show: true,
-        feature: {
-          dataView: { show: false, readOnly: false },
-          restore: {},
-        },
-      },
-      dataZoom: {
-        show: false,
-        start: 0,
-        end: 100,
-      },
-      xAxis: [
-        {
-          type: "category",
-          boundaryGap: true,
-          data: categories,
-        },
-        {
-          type: "category",
-          boundaryGap: true,
-          data: categories2,
-        },
-      ],
-      yAxis: [
-        {
-          type: "value",
-          scale: true,
-          name: "Price",
-          max: 30,
-          min: 0,
-          boundaryGap: [0.2, 0.2],
-        },
-        {
-          type: "value",
-          scale: true,
-          name: "Order",
-          max: 1200,
-          min: 0,
-          boundaryGap: [0.2, 0.2],
-        },
-      ],
-      series: [
-        {
-          name: "Dynamic Bar",
-          type: "bar",
-          xAxisIndex: 1,
-          yAxisIndex: 1,
-          data,
-        },
-        {
-          name: "Dynamic Line",
-          type: "line",
-          data: data2,
-        },
-      ],
-    }
-    let chart: any
-    let inter
-    if (skiaRef.current) {
-      chart = echarts.init(skiaRef.current, "light", {
-        renderer: "svg",
-        width: E_WIDTH,
-        height: E_HEIGHT,
-      })
-      chart.setOption(option)
-
-      let count = 11
-      inter = setInterval(function () {
-        const axisData = new Date().toLocaleTimeString().replace(/^\D*/, "")
-
-        data.shift()
-        data.push(Math.round(Math.random() * 1000))
-        data2.shift()
-        data2.push(+(Math.random() * 10 + 5).toFixed(1))
-
-        categories.shift()
-        categories.push(axisData)
-        categories2.shift()
-        categories2.push(count++)
-
-        chart.setOption({
-          xAxis: [
-            {
-              data: categories,
-            },
-            {
-              data: categories2,
-            },
-          ],
-          series: [
-            {
-              data,
-            },
-            {
-              data: data2,
-            },
-          ],
-        })
-      }, 500)
-    }
-    return () => {
-      chart?.dispose()
-      clearInterval(inter)
-    }
-  }, [])
-
-  return (
-    <SafeAreaView style={$container}>
-      <SkiaChart ref={skiaRef} />
-    </SafeAreaView>
+  useHeader(
+    {
+      rightTx: "common.logOut",
+      onRightPress: logout,
+    },
+    [logout],
   )
+  // @demo remove-block-end
+
+  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
     <View style={$container}>
@@ -223,7 +58,29 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
       </View>
 
       <View style={[$bottomContainer, $bottomContainerInsets]}>
+        <View style={tw.style("flex-row flex-wrap gap-y-2")}>
+          <View style={tw.style("w-1/2 bg-red-200")}>
+            <Text>1</Text>
+            <Text>1</Text>
+          </View>
+          <View style={tw.style("w-1/2 bg-green-200")}>
+            <Text>2</Text>
+            <Text>2</Text>
+            <Text>2</Text>
+          </View>
+          <View style={tw.style("w-1/2 bg-blue-200")}>
+            <Text>3</Text>
+          </View>
+        </View>
         <Text tx="welcomeScreen.postscript" size="md" />
+        {/* @demo remove-block-start */}
+        <Button
+          testID="next-screen-button"
+          preset="reversed"
+          tx="welcomeScreen.letsGo"
+          onPress={goNext}
+        />
+        {/* @demo remove-block-end */}
       </View>
     </View>
   )
@@ -231,7 +88,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
 const $container: ViewStyle = {
   flex: 1,
-  backgroundColor: "white",
+  backgroundColor: colors.background,
 }
 
 const $topContainer: ViewStyle = {
