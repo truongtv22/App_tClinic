@@ -1,8 +1,6 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-// import { tw } from "react-native-tailwindcss"
-import tw from "twrnc"
 import {
   Button, // @demo remove-current-line
   Text,
@@ -58,20 +56,6 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
       </View>
 
       <View style={[$bottomContainer, $bottomContainerInsets]}>
-        <View style={tw.style("flex-row flex-wrap gap-y-2")}>
-          <View style={tw.style("w-1/2 bg-red-200")}>
-            <Text>1</Text>
-            <Text>1</Text>
-          </View>
-          <View style={tw.style("w-1/2 bg-green-200")}>
-            <Text>2</Text>
-            <Text>2</Text>
-            <Text>2</Text>
-          </View>
-          <View style={tw.style("w-1/2 bg-blue-200")}>
-            <Text>3</Text>
-          </View>
-        </View>
         <Text tx="welcomeScreen.postscript" size="md" />
         {/* @demo remove-block-start */}
         <Button
