@@ -14,9 +14,12 @@ import "./utils/ignoreWarnings"
 import { useFonts } from "expo-font"
 import React from "react"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
-import { ApplicationProvider } from "@ui-kitten/components"
+import { EvaIconsPack } from "@ui-kitten/eva-icons"
+import { IconRegistry, ApplicationProvider } from "@ui-kitten/components"
 import { light, mapping } from "@eva-design/eva"
 import * as Linking from "expo-linking"
+import appTheme from "./theme/appTheme"
+import mappingTheme from "./theme/mappingTheme"
 import { useInitialRootStore } from "./models"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { ErrorBoundary } from "./screens/ErrorScreen/ErrorBoundary"
@@ -24,6 +27,8 @@ import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
+import AppIconsPack from "./components/IconsPack/AppIconsPack"
+import * as ExpoIconsPack from "./components/IconsPack/ExpoIconsPack"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
@@ -107,7 +112,13 @@ function App(props: AppProps) {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <ApplicationProvider mapping={mapping} theme={light}>
+        <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
+        <ApplicationProvider
+          theme={{ ...light, ...appTheme }}
+          mapping={mapping}
+          // @ts-ignore
+          customMapping={mappingTheme}
+        >
           <AppNavigator
             linking={linking}
             initialState={initialNavigationState}
