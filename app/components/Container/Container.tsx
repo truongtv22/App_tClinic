@@ -1,10 +1,11 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { tw } from "react-native-tailwindcss"
-import { styled } from "@ui-kitten/components"
-import { View } from "react-native"
+import { styled, StyledComponentProps } from "@ui-kitten/components"
+import { View, ViewProps } from "react-native"
 
-function Container(props) {
+export type ContainerProps = ViewProps & StyledComponentProps
+
+function Container(props: ContainerProps) {
   const { eva, style, ...restProps } = props
 
   return <View {...restProps} style={[eva.style, tw.flex1, style]} />

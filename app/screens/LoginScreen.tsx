@@ -9,7 +9,7 @@ import {
   ImageBackground,
   useWindowDimensions,
 } from "react-native"
-import { Icon, Text, Button, Modal } from "@ui-kitten/components"
+import { Icon, Text, Button } from "@ui-kitten/components"
 import { tw } from "react-native-tailwindcss"
 import { Formik } from "formik"
 import { useMemoizedFn } from "ahooks"
@@ -39,8 +39,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   const { height: heightScreen } = useWindowDimensions()
 
-  const [visible, setVisible] = useState(false)
-  const [visible1, setVisible1] = useState(false)
   const [passwordSecure, setPasswordSecure] = useState(true)
 
   const initialForm = {
@@ -102,7 +100,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   const onFormSubmit = useMemoizedFn((values) => {
     console.log("onFormSubmit", values)
-    setVisible(true)
   })
 
   const renderForm = useMemoizedFn((formik) => (
@@ -131,7 +128,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
           </TouchableOpacity>
         </View> */}
       <Button style={tw.mT6} onPress={formik.handleSubmit}>
-        ĐĂNG NHẬP 1
+        ĐĂNG NHẬP
       </Button>
     </View>
   ))
@@ -160,18 +157,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
           </View>
         </Content>
       </Content>
-      <Modal visible={visible}>
-        <Text>Welcome to UI Kitten 😻 1</Text>
-        <Text>{visible1 ? "true" : "fase"}</Text>
-        <Button
-          onPress={() => {
-            setVisible(false)
-            setVisible1(true)
-          }}
-        >
-          DISMISS 1
-        </Button>
-      </Modal>
     </Container>
   )
 

@@ -18,6 +18,7 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons"
 import { IconRegistry, ApplicationProvider } from "@ui-kitten/components"
 import { light, mapping } from "@eva-design/eva"
 import * as Linking from "expo-linking"
+import { RootSiblingParent } from "react-native-root-siblings"
 import appTheme from "./theme/appTheme"
 import mappingTheme from "./theme/mappingTheme"
 import { useInitialRootStore } from "./models"
@@ -112,19 +113,21 @@ function App(props: AppProps) {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
-        <ApplicationProvider
-          theme={{ ...light, ...appTheme }}
-          mapping={mapping}
-          // @ts-ignore
-          customMapping={mappingTheme}
-        >
-          <AppNavigator
-            linking={linking}
-            initialState={initialNavigationState}
-            onStateChange={onNavigationStateChange}
-          />
-        </ApplicationProvider>
+        <RootSiblingParent>
+          <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
+          <ApplicationProvider
+            theme={{ ...light, ...appTheme }}
+            mapping={mapping}
+            // @ts-ignore
+            customMapping={mappingTheme}
+          >
+            <AppNavigator
+              linking={linking}
+              initialState={initialNavigationState}
+              onStateChange={onNavigationStateChange}
+            />
+          </ApplicationProvider>
+        </RootSiblingParent>
       </ErrorBoundary>
     </SafeAreaProvider>
   )
