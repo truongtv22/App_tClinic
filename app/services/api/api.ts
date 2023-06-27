@@ -48,6 +48,14 @@ export class Api {
     })
   }
 
+  async login(username: string, password: string) {
+    const response = await this.apisauce.post("api/users/login", {
+      username,
+      password,
+    })
+    return response.data;
+  }
+
   // @demo remove-block-start
   /**
    * Gets a list of recent React Native Radio episodes.

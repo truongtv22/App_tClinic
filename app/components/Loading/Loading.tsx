@@ -7,6 +7,8 @@ const Loading = () => {
   return (
     <View
       style={[
+        tw.absolute,
+        tw.inset0,
         tw.flex1,
         tw.itemsCenter,
         tw.justifyCenter,
