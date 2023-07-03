@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
-      "backgroundColor": "#191015"
+      "backgroundColor": "#23376D"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,7 +30,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-android-universal.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#23376D"
       }
     },
     "ios": {
@@ -41,16 +41,16 @@
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#23376D"
       }
     },
     "web": {
-      "favicon": "./assets/images/app-icon-web-favicon.png",
       "splash": {
+        "backgroundColor": "#23376D",
         "image": "./assets/images/splash-logo-web.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#191015"
-      }
+        "resizeMode": "contain"
+      },
+      "favicon": "./assets/images/app-icon-web-favicon.png"
     },
     "plugins": [
       "expo-localization"
