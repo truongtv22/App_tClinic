@@ -1,14 +1,23 @@
 import React from "react"
 import { tw } from "react-native-tailwindcss"
-import { styled } from "@ui-kitten/components"
-import { View, ScrollView } from "react-native"
+import { LayoutProps } from "@ui-kitten/components"
+import { View, ScrollView, StyleProp, ViewStyle } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
+import useStyled from "app/utils/useStyled"
 import useSafeAreaStyle from "app/components/SafeAreaView/useSafeAreaStyle"
 
-function Content(props) {
+interface ContentProps extends LayoutProps {
+  scrollEnabled?: boolean
+  safeAreaEnabled?: boolean
+  keyboardEnabled?: boolean
+  contentContainerStyle?: StyleProp<ViewStyle> | undefined
+}
+
+export default function Content(props: ContentProps) {
+  const { eva } = useStyled("Layout", props)
+
   const {
-    eva,
     style,
     children,
     scrollEnabled = true,
@@ -45,10 +54,6 @@ function Content(props) {
   )
 }
 
-const StyledContent = styled("Layout")(Content)
-
-StyledContent.defaultProps = {
+Content.defaultProps = {
   level: "2",
 }
-
-export default StyledContent

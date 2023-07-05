@@ -4,23 +4,18 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-  NavigatorScreenParams,
-} from "@react-navigation/native"
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
-import { observer } from "mobx-react-lite"
 import React from "react"
-import { useColorScheme } from "react-native"
-import * as Screens from "app/screens"
+import { observer } from "mobx-react-lite"
+import { StatusBar } from "expo-status-bar"
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import Config from "../config"
 import { useStores } from "../models"
-import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import { colors } from "app/theme"
-import Loading from "../components/Loading/Loading"
+import Loading from "../components/Loading"
+import { AppRoute } from "./appRoutes"
+import { AuthNavigator } from "./AuthNavigator"
+import { MainNavigator } from "./MainNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -35,10 +30,9 @@ import Loading from "../components/Loading/Loading"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
-export type AppStackParamList = {
-  Welcome: undefined
-  Login: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList>
+export type AppStackParams = {
+  [AppRoute.AUTH]: undefined
+  [AppRoute.MAIN]: undefined
 }
 
 /**
@@ -47,13 +41,13 @@ export type AppStackParamList = {
  */
 const exitRoutes = Config.exitRoutes
 
-export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
-  AppStackParamList,
+export type AppStackScreenProps<T extends keyof AppStackParams> = NativeStackScreenProps<
+  AppStackParams,
   T
 >
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
-const Stack = createNativeStackNavigator<AppStackParamList>()
+const Stack = createNativeStackNavigator<AppStackParams>()
 
 const AppStack = observer(function AppStack() {
   const {
@@ -62,18 +56,13 @@ const AppStack = observer(function AppStack() {
 
   return (
     <Stack.Navigator
-      screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      screenOptions={{ headerShown: false }}
+      initialRouteName={isAuthenticated ? AppRoute.MAIN : AppRoute.AUTH}
     >
       {isAuthenticated ? (
-        <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="Demo" component={DemoNavigator} />
-        </>
+        <Stack.Screen name={AppRoute.MAIN} component={MainNavigator} />
       ) : (
-        <>
-          <Stack.Screen name="Login" component={Screens.LoginScreen} />
-        </>
+        <Stack.Screen name={AppRoute.AUTH} component={AuthNavigator} />
       )}
     </Stack.Navigator>
   )
@@ -83,8 +72,6 @@ export interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
-  const colorScheme = useColorScheme()
-
   const {
     appStore: { loading },
   } = useStores()
@@ -92,11 +79,8 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-      {...props}
-    >
+    <NavigationContainer ref={navigationRef} {...props}>
+      <StatusBar style="dark" />
       <AppStack />
       {loading && <Loading />}
     </NavigationContainer>

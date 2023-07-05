@@ -37,7 +37,7 @@ setupReactotron({
   // clear the Reactotron window when the app loads/reloads
   clearOnLoad: true,
   // generally going to be localhost
-  host: "10.10.20.40",
+  host: "10.10.20.41",
   // Reactotron can monitor AsyncStorage for you
   useAsyncStorage: true,
   // log the initial restored state from AsyncStorage
@@ -54,17 +54,6 @@ const config = {
   screens: {
     Login: {
       path: "",
-    },
-    Welcome: "welcome",
-    Demo: {
-      screens: {
-        DemoShowroom: {
-          path: "showroom/:queryIndex?/:itemIndex?",
-        },
-        DemoDebug: "debug",
-        DemoPodcastList: "podcast",
-        DemoCommunity: "community",
-      },
     },
   },
 }

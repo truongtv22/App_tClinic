@@ -1,14 +1,15 @@
 import React from "react"
+import { View } from "react-native"
 import { tw } from "react-native-tailwindcss"
-import { styled, StyledComponentProps } from "@ui-kitten/components"
-import { View, ViewProps } from "react-native"
+import { LayoutProps } from "@ui-kitten/components"
+import useStyled from "app/utils/useStyled"
 
-export type ContainerProps = ViewProps & StyledComponentProps
+interface ContainerProps extends LayoutProps {}
 
-function Container(props: ContainerProps) {
-  const { eva, style, ...restProps } = props
+export default function Container(props: ContainerProps) {
+  const { eva } = useStyled("Layout", props)
+
+  const { style, ...restProps } = props
 
   return <View {...restProps} style={[eva.style, tw.flex1, style]} />
 }
-
-export default styled("Layout")(Container)

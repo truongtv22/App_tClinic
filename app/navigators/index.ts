@@ -1,3 +1,5 @@
+export * from "./appRoutes"
 export * from "./AppNavigator"
+export * from "./AuthNavigator"
+export * from "./MainNavigator"
 export * from "./navigationUtilities"
-// export other navigators from here

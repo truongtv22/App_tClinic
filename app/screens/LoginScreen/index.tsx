@@ -1,104 +1,115 @@
+import React, { FC, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import React, { FC, useEffect, useRef, useState } from "react"
-import {
-  View,
-  Image,
-  TextInput,
-  TextStyle,
-  ViewStyle,
-  ImageBackground,
-  useWindowDimensions,
-} from "react-native"
-import { Icon, Text, Button } from "@ui-kitten/components"
-import { tw } from "react-native-tailwindcss"
+import { Image, TouchableOpacity, ImageBackground, useWindowDimensions } from "react-native"
+import { Text, Button, CheckBox } from "@ui-kitten/components"
 import { Formik } from "formik"
 import { useMemoizedFn } from "ahooks"
 
+import tw from "app/theme/tailwind"
+
 import { ImageAssets } from "app/constants/assets"
+import { Column, Row } from "app/components/Stack"
 import Header from "app/components/Header/Header"
 import Content from "app/components/Content/Content"
 import Container from "app/components/Container/Container"
 import FormikInput from "app/components/FormInput/FormikInput"
-import { Screen, TextField, TextFieldAccessoryProps } from "../../components"
+
+import { AppRoute, AuthStackScreenProps } from "app/navigators"
+
 import { useStores } from "../../models"
-import { AppStackScreenProps } from "../../navigators"
-import { colors, spacing } from "../../theme"
 
-interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
+interface LoginScreenProps extends AuthStackScreenProps<AppRoute.LOGIN> {}
 
-export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen() {
+export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({ navigation }) {
   const { authStore } = useStores()
 
+  const initialForm = useMemo(
+    () => ({
+      username: "admin",
+      password: "admin@123",
+    }),
+    [],
+  )
+
+  const [shouldRemember, setShouldRemember] = useState(true)
   const [passwordSecure, setPasswordSecure] = useState(true)
 
   const { height: heightScreen } = useWindowDimensions()
 
-  const initialForm = {
-    username: "admin", // '0911079127',
-    password: "admin@123", // 'abc@123',
+  const onFormSubmit = (values) => {
+    authStore.login(values.username, values.password)
   }
 
-  const onPasswordPress = useMemoizedFn(() => {
+  const onPasswordPress = () => {
     setPasswordSecure(!passwordSecure)
-  })
+  }
 
-  const onFormSubmit = useMemoizedFn((values) => {
-    authStore.login(values.username, values.password)
-  })
+  const onRememberChange = (checked) => {
+    setShouldRemember(checked)
+  }
+
+  const navigateRegister = () => {
+    navigation.navigate(AppRoute.REGISTER)
+  }
+
+  const navigateForgetPassword = () => {}
 
   const renderForm = useMemoizedFn((formik) => (
-    <View style={tw.pY6}>
-      <FormikInput name="username" placeholder="Nhập tài khoản" autoCapitalize="none" />
-      <FormikInput
-        name="password"
-        icon={{
-          name: passwordSecure ? "eye" : "eye-close",
-          pack: "app",
-          width: 20,
-          height: 20,
-        }}
-        onIconPress={onPasswordPress}
-        placeholder="Nhập mật khẩu"
-        autoCapitalize="none"
-        containerStyle={tw.mT3}
-        secureTextEntry={passwordSecure}
-      />
-      {/* <View style={[tw.flexRow, tw.mT3, tw.itemsCenter, tw.justifyBetween]}>
+    <Column space="6">
+      <Column space="2">
+        <FormikInput name="username" placeholder="Nhập tài khoản" autoCapitalize="none" />
+        <FormikInput
+          name="password"
+          icon={{
+            name: passwordSecure ? "eye" : "eye-close",
+            pack: "app",
+            width: 20,
+            height: 20,
+          }}
+          onIconPress={onPasswordPress}
+          placeholder="Nhập mật khẩu"
+          autoCapitalize="none"
+          secureTextEntry={passwordSecure}
+        />
+        <Row align="center" justify="space-between">
           <CheckBox checked={shouldRemember} onChange={onRememberChange}>
             Nhớ mật khẩu
           </CheckBox>
-          <TouchableOpacity onPress={navigateForgetPassword}>
-            <Text category="s2">Quên mật khẩu?</Text>
-          </TouchableOpacity>
-        </View> */}
-      <Button style={tw.mT6} onPress={formik.handleSubmit}>
-        ĐĂNG NHẬP
-      </Button>
-    </View>
+          <Row>
+            <TouchableOpacity onPress={navigateForgetPassword}>
+              <Text category="s2" status="primary">
+                Quên mật khẩu?
+              </Text>
+            </TouchableOpacity>
+            <Text category="s2"> hoặc </Text>
+            <TouchableOpacity onPress={navigateRegister}>
+              <Text category="s2" status="primary">
+                Đăng ký
+              </Text>
+            </TouchableOpacity>
+          </Row>
+        </Row>
+      </Column>
+      <Button onPress={formik.handleSubmit}>ĐĂNG NHẬP</Button>
+    </Column>
   ))
 
   return (
     <Container>
-      <Content level="1" safeAreaEnabled={false} keyboardEnabled={true}>
+      <Content level="1" keyboardEnabled safeAreaEnabled={false}>
         <ImageBackground style={{ height: 0.35 * heightScreen }} source={ImageAssets.BG_DOCTOR}>
-          <Header style={[tw.flex1, tw.itemsCenter, tw.justifyCenter, tw.bgTransparent]}>
+          <Header style={tw.style("flex-1 items-center justify-center bg-transparent")}>
             <Image source={ImageAssets.LOGO} />
           </Header>
         </ImageBackground>
-        <Content
-          level="1"
-          style={{
-            top: -8,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-          }}
-        >
-          <View style={[tw.flex1, tw.p6]}>
-            <Text category="h1">Đăng nhập</Text>
-            <View style={tw.h2} />
-            <Text category="p1">Đăng nhập hệ thống tClinic</Text>
+        <Content level="1" style={tw.style("-mt-2 rounded-t-2xl")}>
+          <Column space="6" style={tw.style("flex-1 p-6")}>
+            <Column space="2">
+              <Text category="h1">Đăng nhập</Text>
+              <Text category="p1">Đăng nhập hệ thống tClinic</Text>
+            </Column>
             <Formik initialValues={initialForm} onSubmit={onFormSubmit} component={renderForm} />
-          </View>
+          </Column>
         </Content>
       </Content>
     </Container>
