@@ -2,8 +2,8 @@ import React, { FC, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Image, TouchableOpacity, ImageBackground, useWindowDimensions } from "react-native"
 import { Text, Button, CheckBox } from "@ui-kitten/components"
-import { Formik } from "formik"
-import { useMemoizedFn } from "ahooks"
+import { Formik, FormikProps } from "formik"
+import * as Yup from "yup"
 
 import tw from "app/theme/tailwind"
 
@@ -20,10 +20,23 @@ import { useStores } from "../../models"
 
 interface LoginScreenProps extends AuthStackScreenProps<AppRoute.LOGIN> {}
 
+interface LoginFormValues {
+  username: string
+  password: string
+}
+
+const loginSchema = Yup.object({
+  username: Yup.string().label("Tài khoản").required("${label} không được để trống"),
+  password: Yup.string()
+    .label("Mật khẩu")
+    .required("${label} không được để trống")
+    .min(3, "${label} yêu cầu ít nhất ${min} ký tự"),
+})
+
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({ navigation }) {
   const { authStore } = useStores()
 
-  const initialForm = useMemo(
+  const initialValues = useMemo<LoginFormValues>(
     () => ({
       username: "admin",
       password: "admin@123",
@@ -36,7 +49,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
 
   const { height: heightScreen } = useWindowDimensions()
 
-  const onFormSubmit = (values) => {
+  const onFormSubmit = (values: LoginFormValues) => {
     authStore.login(values.username, values.password)
   }
 
@@ -44,7 +57,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
     setPasswordSecure(!passwordSecure)
   }
 
-  const onRememberChange = (checked) => {
+  const onRememberChange = (checked: boolean) => {
     setShouldRemember(checked)
   }
 
@@ -54,7 +67,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
 
   const navigateForgetPassword = () => {}
 
-  const renderForm = useMemoizedFn((formik) => (
+  const renderForm = (formik: FormikProps<LoginFormValues>) => (
     <Column space="6">
       <Column space="2">
         <FormikInput name="username" placeholder="Nhập tài khoản" autoCapitalize="none" />
@@ -90,9 +103,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
           </Row>
         </Row>
       </Column>
-      <Button onPress={formik.handleSubmit}>ĐĂNG NHẬP</Button>
+      <Button onPress={formik.submitForm}>ĐĂNG NHẬP</Button>
     </Column>
-  ))
+  )
 
   return (
     <Container>
@@ -108,7 +121,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
               <Text category="h1">Đăng nhập</Text>
               <Text category="p1">Đăng nhập hệ thống tClinic</Text>
             </Column>
-            <Formik initialValues={initialForm} onSubmit={onFormSubmit} component={renderForm} />
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onFormSubmit}
+              component={renderForm}
+              validationSchema={loginSchema}
+            />
           </Column>
         </Content>
       </Content>

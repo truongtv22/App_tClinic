@@ -7,7 +7,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons"
 
-const IconProvider = (Icon, name) => ({
+const IconProvider = (Icon, name: string) => ({
   toReactElement: (props) => {
     const { fill, style, ...restProps } = props
 
@@ -26,7 +26,7 @@ const IconProvider = (Icon, name) => ({
   },
 })
 
-const createIconsMap = (Icon) => new Proxy({}, { get: (target, name) => IconProvider(Icon, name) })
+const createIconsMap = (Icon) => new Proxy({}, { get: (target, name: string) => IconProvider(Icon, name) })
 
 export const MaterialIconsPack = {
   name: "material",

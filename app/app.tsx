@@ -11,8 +11,9 @@
  */
 import "./i18n"
 import "./utils/ignoreWarnings"
-import { useFonts } from "expo-font"
 import React from "react"
+import { useFonts } from "expo-font"
+import { StatusBar } from "expo-status-bar"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 import { EvaIconsPack } from "@ui-kitten/eva-icons"
 import { IconRegistry, ApplicationProvider } from "@ui-kitten/components"
@@ -28,6 +29,7 @@ import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
+import { Loading, loadingRef } from "./components/Loading"
 import AppIconsPack from "./components/IconsPack/AppIconsPack"
 import * as ExpoIconsPack from "./components/IconsPack/ExpoIconsPack"
 
@@ -110,11 +112,13 @@ function App(props: AppProps) {
             // @ts-ignore
             customMapping={mappingTheme}
           >
+            <StatusBar style="dark" />
             <AppNavigator
               linking={linking}
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
+            <Loading ref={loadingRef} />
           </ApplicationProvider>
         </RootSiblingParent>
       </ErrorBoundary>

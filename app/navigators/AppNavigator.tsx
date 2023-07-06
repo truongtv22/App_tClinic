@@ -6,13 +6,11 @@
  */
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { StatusBar } from "expo-status-bar"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import Config from "../config"
 import { useStores } from "../models"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import Loading from "../components/Loading"
 import { AppRoute } from "./appRoutes"
 import { AuthNavigator } from "./AuthNavigator"
 import { MainNavigator } from "./MainNavigator"
@@ -72,17 +70,11 @@ export interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
-  const {
-    appStore: { loading },
-  } = useStores()
-
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 
   return (
     <NavigationContainer ref={navigationRef} {...props}>
-      <StatusBar style="dark" />
       <AppStack />
-      {loading && <Loading />}
     </NavigationContainer>
   )
 })

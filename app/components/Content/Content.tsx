@@ -1,13 +1,13 @@
 import React from "react"
 import { tw } from "react-native-tailwindcss"
 import { LayoutProps } from "@ui-kitten/components"
-import { View, ScrollView, StyleProp, ViewStyle } from "react-native"
+import { View, ScrollView, StyleProp, ViewStyle, ScrollViewProps } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 import useStyled from "app/utils/useStyled"
 import useSafeAreaStyle from "app/components/SafeAreaView/useSafeAreaStyle"
 
-interface ContentProps extends LayoutProps {
+interface ContentProps extends LayoutProps, ScrollViewProps {
   scrollEnabled?: boolean
   safeAreaEnabled?: boolean
   keyboardEnabled?: boolean

@@ -1,5 +1,6 @@
 import { Instance, flow, types } from "mobx-state-tree"
-import { api } from "../../services/api"
+import { api } from "app/services/api"
+import * as LoadingService from "app/components/Loading"
 import { withAppStore } from "../helpers/withAppStore"
 
 const UserModel = types.model({
@@ -33,13 +34,15 @@ export const AuthStoreModel = types
   }))
   .actions((self) => ({
     login: flow(function* (username: string, password: string) {
-      self.appStore.setLoading(true)
+      // self.appStore.setLoading(true)
+      LoadingService.show()
       const data = yield api.login(username, password)
       if (data) {
         self.setToken(data.token)
         self.setUser(data.user)
       }
-      self.appStore.setLoading(false)
+      // self.appStore.setLoading(false)
+      LoadingService.hide()
     }),
   }))
 export interface AuthStore extends Instance<typeof AuthStoreModel> {}

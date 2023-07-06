@@ -1,9 +1,10 @@
 import React, { FC, useMemo, useCallback } from "react"
 import { observer } from "mobx-react-lite"
-import { tw } from "react-native-tailwindcss"
-import { Formik } from "formik"
-import { View, Image } from "react-native"
+// import { tw } from "react-native-tailwindcss"
+import { Formik, FormikProps } from "formik"
+import { Image } from "react-native"
 import { Text, Button } from "@ui-kitten/components"
+import * as Yup from "yup"
 
 import { ImageAssets } from "app/constants/assets"
 
@@ -11,13 +12,42 @@ import Header from "app/components/Header/Header"
 import Content from "app/components/Content/Content"
 import Container from "app/components/Container/Container"
 import FormikInput from "app/components/FormInput/FormikInput"
+import { Column } from "app/components/Stack"
 
 import { AppRoute, AuthStackScreenProps } from "app/navigators"
+import tw from "app/theme/tailwind"
 
 interface RegisterScreenProps extends AuthStackScreenProps<AppRoute.REGISTER> {}
 
+interface RegisterFormValues {
+  name: string
+  email: string
+  password: string
+  passwordConfirm: string
+  telephone: string
+}
+
+const registerSchema = Yup.object({
+  name: Yup.string()
+    .label("Họ và tên")
+    .required("${label} không được để trống")
+    .min(3, "${label} yêu cầu ít nhất ${min} ký tự"),
+  email: Yup.string()
+    .label("Email")
+    .required("${label} không được để trống")
+    .email("${label} không đúng định dạng"),
+  password: Yup.string()
+    .label("Mật khẩu")
+    .required("${label} không được để trống")
+    .min(3, "${label} yêu cầu ít nhất ${min} ký tự"),
+  passwordConfirm: Yup.string()
+    .label("Xác nhận mật khẩu")
+    .required("${label} không được để trống")
+    .oneOf([Yup.ref("password")], "Mật khẩu không khớp"),
+})
+
 export const RegisterScreen: FC<RegisterScreenProps> = observer(function RegisterScreen() {
-  const initialForm = useMemo(
+  const initialValues = useMemo<RegisterFormValues>(
     () => ({
       name: "",
       email: "",
@@ -28,73 +58,67 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
     [],
   )
 
-  const onFormSubmit = useCallback((values) => {}, [])
+  const onFormSubmit = (values: RegisterFormValues) => {}
 
-  const renderForm = useCallback(
-    (formik) => (
-      <View style={[tw.flex1, tw.justifyBetween]}>
-        <View>
-          <FormikInput name="name" label="Họ và tên" required={true} placeholder="Nhập họ và tên" />
-          <FormikInput
-            name="email"
-            label="Email"
-            required={true}
-            placeholder="Nhập email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            containerStyle={tw.mT3}
-          />
-          <FormikInput
-            name="password"
-            label="Mật khẩu"
-            required={true}
-            placeholder="Nhập mật khẩu"
-            autoCapitalize="none"
-            containerStyle={tw.mT3}
-            secureTextEntry={true}
-          />
-          <FormikInput
-            name="passwordConfirm"
-            label="Xác nhận mật khẩu"
-            required={true}
-            placeholder="Nhập lại mật khẩu"
-            autoCapitalize="none"
-            containerStyle={tw.mT3}
-            secureTextEntry={true}
-          />
-          <FormikInput
-            name="telephone"
-            label="Số điện thoại"
-            placeholder="Nhập số điện thoại"
-            keyboardType="phone-pad"
-            autoCapitalize="none"
-            containerStyle={tw.mT3}
-          />
-          <View style={tw.h2} />
-        </View>
-        <Button onPress={formik.handleSubmit}>ĐĂNG KÝ</Button>
-      </View>
-    ),
-    [],
+  const renderForm = (formik: FormikProps<RegisterFormValues>) => (
+    <Column style={tw.style("flex-1 justify-between")}>
+      <Column space="2">
+        <FormikInput name="name" label="Họ và tên" required placeholder="Nhập họ và tên" />
+        <FormikInput
+          name="email"
+          label="Email"
+          required
+          placeholder="Nhập email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <FormikInput
+          name="password"
+          label="Mật khẩu"
+          required
+          placeholder="Nhập mật khẩu"
+          autoCapitalize="none"
+          secureTextEntry
+        />
+        <FormikInput
+          name="passwordConfirm"
+          label="Xác nhận mật khẩu"
+          required
+          placeholder="Nhập lại mật khẩu"
+          autoCapitalize="none"
+          secureTextEntry
+        />
+        <FormikInput
+          name="telephone"
+          label="Số điện thoại"
+          placeholder="Nhập số điện thoại"
+          keyboardType="phone-pad"
+          autoCapitalize="none"
+        />
+      </Column>
+      <Button onPress={formik.submitForm}>ĐĂNG KÝ</Button>
+    </Column>
   )
 
   return (
     <Container>
       <Header />
-      <Content level="1" keyboardEnabled contentContainerStyle={tw.p4}>
-        <View style={[tw.pB10, tw.itemsCenter]}>
-          <Image source={ImageAssets.LOGO} />
-          <View style={tw.h6} />
-          <Text category="h1">Đăng ký</Text>
-          <View style={tw.h1} />
-          <Text category="c1">Nhập thông tin đăng nhập của bạn để tiếp tục</Text>
-        </View>
-        <Formik
-          initialValues={initialForm}
-          onSubmit={onFormSubmit}
-          component={renderForm}
-          // validationSchema={RegisterSchema}
-        />
+      <Content level="1" keyboardEnabled>
+        <Column space="6" style={tw.style("flex-1 p-4")}>
+          <Column space="6" align="center">
+            <Image source={ImageAssets.LOGO} />
+            <Column space="1" align="center">
+              <Text category="h1">Đăng ký</Text>
+              <Text category="c1">Nhập thông tin đăng nhập của bạn để tiếp tục</Text>
+            </Column>
+          </Column>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onFormSubmit}
+            component={renderForm}
+            validationSchema={registerSchema}
+          />
+        </Column>
       </Content>
     </Container>
   )
