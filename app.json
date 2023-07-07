@@ -1,8 +1,8 @@
 {
   "name": "tClinicApp",
-  "displayName": "tClinicApp",
+  "displayName": "tClinic App",
   "expo": {
-    "name": "tClinicApp",
+    "name": "tClinic App",
     "slug": "tClinicApp",
     "scheme": "tclinicapp",
     "version": "1.0.0",
