@@ -78,6 +78,7 @@
     "react-native-gesture-handler": "~2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modalize": "^2.1.1",
+    "react-native-otp-textinput": "^1.0.1",
     "react-native-portalize": "^1.0.7",
     "react-native-reanimated": "~2.14.4",
     "react-native-root-toast": "^3.4.1",
@@ -89,7 +90,8 @@
     "reactotron-react-js": "^3.3.7",
     "reactotron-react-native": "5.0.3",
     "twrnc": "^3.6.1",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "yup-phone-lite": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

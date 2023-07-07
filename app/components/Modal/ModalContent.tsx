@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import PropTypes from "prop-types"
 import { BackHandler } from "react-native"
 import { useMemoizedFn } from "ahooks"
@@ -6,7 +6,7 @@ import { useMemoizedFn } from "ahooks"
 const ModalContent = (props) => {
   const { children, backPressEnabled } = props
 
-  const backButtonListenerRef = React.useRef(null)
+  const backButtonListenerRef = useRef(null)
 
   React.useEffect(() => {
     props.onModalShow?.()

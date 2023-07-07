@@ -1,12 +1,12 @@
 export default {
   strict: {
-    'text-label-font-size': 14,
-    'text-label-font-weight': 'bold',
+    "text-label-font-size": 14,
+    "text-label-font-weight": "bold",
   },
   components: {
     Box: {
       meta: {
-        scope: 'all',
+        scope: "all",
         parameters: {},
         appearances: {},
         variantGroups: {},
@@ -18,24 +18,24 @@ export default {
       meta: {
         parameters: {
           color: {
-            type: 'string',
+            type: "string",
           },
           backgroundColor: {
-            type: 'string',
+            type: "string",
           },
         },
         variantGroups: {
           level: {
-            '1': {
+            "1": {
               default: false,
             },
-            '2': {
+            "2": {
               default: false,
             },
-            '3': {
+            "3": {
               default: false,
             },
-            '4': {
+            "4": {
               default: false,
             },
           },
@@ -65,43 +65,43 @@ export default {
         default: {
           variantGroups: {
             level: {
-              '1': {
-                backgroundColor: 'background-basic-color-1',
+              "1": {
+                backgroundColor: "background-basic-color-1",
               },
-              '2': {
-                backgroundColor: 'background-basic-color-2',
+              "2": {
+                backgroundColor: "background-basic-color-2",
               },
-              '3': {
-                backgroundColor: 'background-basic-color-3',
+              "3": {
+                backgroundColor: "background-basic-color-3",
               },
-              '4': {
-                backgroundColor: 'background-basic-color-4',
+              "4": {
+                backgroundColor: "background-basic-color-4",
               },
             },
             status: {
               basic: {
-                color: 'text-basic-color',
-                backgroundColor: 'background-basic-color-2',
+                color: "text-basic-color",
+                backgroundColor: "background-basic-color-2",
               },
               primary: {
-                color: 'color-basic-100',
-                backgroundColor: 'color-primary-default',
+                color: "color-basic-100",
+                backgroundColor: "color-primary-default",
               },
               success: {
-                color: 'color-basic-100',
-                backgroundColor: 'color-success-default',
+                color: "color-basic-100",
+                backgroundColor: "color-success-default",
               },
               info: {
-                color: 'color-basic-100',
-                backgroundColor: 'color-info-default',
+                color: "color-basic-100",
+                backgroundColor: "color-info-default",
               },
               warning: {
-                color: 'color-basic-100',
-                backgroundColor: 'color-warning-default',
+                color: "color-basic-100",
+                backgroundColor: "color-warning-default",
               },
               danger: {
-                color: 'color-basic-100',
-                backgroundColor: 'color-danger-default',
+                color: "color-basic-100",
+                backgroundColor: "color-danger-default",
               },
             },
           },
@@ -133,7 +133,7 @@ export default {
       appearances: {
         ghost: {
           mapping: {
-            backgroundColor: 'background-basic-color-4',
+            backgroundColor: "background-basic-color-4",
           },
         },
       },
@@ -142,7 +142,7 @@ export default {
       meta: {
         parameters: {
           borderBottomWidth: {
-            type: 'number',
+            type: "number",
           },
         },
         variantGroups: {
@@ -172,19 +172,19 @@ export default {
               none: {
                 borderWidth: 0,
                 borderRadius: 0,
-                backgroundColor: 'background-basic-color-1',
+                backgroundColor: "background-basic-color-1",
                 textMarginHorizontal: 0,
                 iconMarginHorizontal: 0,
               },
               filled: {},
               outlined: {
-                backgroundColor: 'background-basic-color-1',
+                backgroundColor: "background-basic-color-1",
               },
               standard: {
                 borderWidth: 0,
                 borderRadius: 0,
-                backgroundColor: 'background-basic-color-1',
-                borderBottomWidth: 'border-width',
+                backgroundColor: "background-basic-color-1",
+                borderBottomWidth: "border-width",
                 textMarginHorizontal: 0,
                 iconMarginHorizontal: 0,
               },
@@ -197,7 +197,7 @@ export default {
       meta: {
         parameters: {
           borderBottomWidth: {
-            type: 'number',
+            type: "number",
           },
         },
         variantGroups: {
@@ -227,20 +227,20 @@ export default {
               none: {
                 borderWidth: 0,
                 borderRadius: 0,
-                backgroundColor: 'background-basic-color-1',
+                backgroundColor: "background-basic-color-1",
                 textMarginHorizontal: 0,
                 iconMarginHorizontal: 0,
                 placeholderMarginHorizontal: 0,
               },
               filled: {},
               outlined: {
-                backgroundColor: 'background-basic-color-1',
+                backgroundColor: "background-basic-color-1",
               },
               standard: {
                 borderWidth: 0,
                 borderRadius: 0,
-                backgroundColor: 'background-basic-color-1',
-                borderBottomWidth: 'border-width',
+                backgroundColor: "background-basic-color-1",
+                borderBottomWidth: "border-width",
                 textMarginHorizontal: 0,
                 iconMarginHorizontal: 0,
                 placeholderMarginHorizontal: 0,
@@ -261,13 +261,13 @@ export default {
     },
     CalendarCell: {
       meta: {
-        scope: 'all',
+        scope: "all",
         parameters: {
           marginHorizontal: {
-            type: 'number',
+            type: "number",
           },
           marginVertical: {
-            type: 'number',
+            type: "number",
           },
         },
       },
@@ -302,7 +302,7 @@ export default {
             variant: {
               filled: {},
               outlined: {
-                backgroundColor: 'background-basic-color-1',
+                backgroundColor: "background-basic-color-1",
               },
             },
           },
@@ -313,13 +313,13 @@ export default {
       meta: {
         parameters: {
           borderRadius: {
-            type: 'number',
+            type: "number",
           },
           borderLeftWidth: {
-            type: 'number',
+            type: "number",
           },
           borderLeftColor: {
-            type: 'string',
+            type: "string",
           },
         },
         variantGroups: {
@@ -361,8 +361,8 @@ export default {
           variantGroups: {
             variant: {
               filled: {
-                borderRadius: 'border-radius',
-                backgroundColor: 'background-basic-color-2',
+                borderRadius: "border-radius",
+                backgroundColor: "background-basic-color-2",
                 paddingVertical: 12,
               },
               standard: {},
@@ -370,31 +370,31 @@ export default {
             status: {
               basic: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-basic-default',
+                borderLeftColor: "color-basic-default",
               },
               primary: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-primary-default',
+                borderLeftColor: "color-primary-default",
               },
               success: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-success-default',
+                borderLeftColor: "color-success-default",
               },
               info: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-info-default',
+                borderLeftColor: "color-info-default",
               },
               warning: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-warning-default',
+                borderLeftColor: "color-warning-default",
               },
               danger: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-danger-default',
+                borderLeftColor: "color-danger-default",
               },
               control: {
                 borderLeftWidth: 4,
-                borderLeftColor: 'color-control-default',
+                borderLeftColor: "color-control-default",
               },
             },
           },
@@ -405,13 +405,13 @@ export default {
       meta: {
         parameters: {
           borderRadius: {
-            type: 'number',
+            type: "number",
           },
           paddingVertical: {
-            type: 'number',
+            type: "number",
           },
           backgroundColor: {
-            type: 'string',
+            type: "string",
           },
         },
         variantGroups: {
@@ -429,11 +429,11 @@ export default {
               filled: {
                 state: {
                   selected: {
-                    textColor: 'color-primary-default',
-                    iconTintColor: 'color-primary-default',
-                    borderRadius: 'border-radius',
+                    textColor: "color-primary-default",
+                    iconTintColor: "color-primary-default",
+                    borderRadius: "border-radius",
                     paddingVertical: 10,
-                    backgroundColor: 'color-primary-transparent-default',
+                    backgroundColor: "color-primary-transparent-default",
                   },
                 },
               },
@@ -443,4 +443,4 @@ export default {
       },
     },
   },
-};
+}

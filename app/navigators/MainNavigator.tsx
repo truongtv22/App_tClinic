@@ -76,7 +76,7 @@ const MainTabNavigator = () => {
             <Icon {...iconProps} pack="app" name="doctor" width={16} height={16} />
           ),
         }}
-        component={Screens.HomeScreen}
+        component={Screens.ProfileScreen}
       />
     </BottomTab.Navigator>
   )
@@ -85,6 +85,8 @@ const MainTabNavigator = () => {
 export type MainStackParams = {
   [AppRoute.MAIN_TAB]: undefined
   [AppRoute.HOME]: undefined
+  [AppRoute.PROFILE]: undefined
+  [AppRoute.PROFILE_EDIT]: undefined
 }
 
 export type MainStackScreenProps<T extends keyof MainStackParams> = NativeStackScreenProps<
@@ -99,6 +101,8 @@ export const MainNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={AppRoute.MAIN_TAB} component={MainTabNavigator} />
       <Stack.Screen name={AppRoute.HOME} component={Screens.HomeScreen} />
+      <Stack.Screen name={AppRoute.PROFILE} component={Screens.ProfileScreen} />
+      <Stack.Screen name={AppRoute.PROFILE_EDIT} component={Screens.ProfileEditScreen} />
     </Stack.Navigator>
   )
 }

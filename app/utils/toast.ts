@@ -1,26 +1,26 @@
-import RNToast from 'react-native-root-toast';
+import RNToast from "react-native-root-toast"
 
 export default class Toast {
   // Duration
-  static SHORT = 2000;
-  static LONG = 3500;
+  static SHORT = RNToast.durations.SHORT
+  static LONG = RNToast.durations.LONG
 
   // Position
-  static TOP = 20;
-  static BOTTOM = -20;
-  static CENTER = 0;
+  static TOP = RNToast.positions.TOP
+  static BOTTOM = RNToast.positions.BOTTOM
+  static CENTER = RNToast.positions.CENTER
 
   /**
    * @param {string} text
    * @param {number} duration
    * @param {object} options
    */
-  static showText(text, duration, options) {
+  static showText(text, duration?, options?) {
     this.show(text, {
       duration: duration || Toast.SHORT,
       position: Toast.BOTTOM,
       ...options,
-    });
+    })
   }
 
   /**
@@ -28,6 +28,6 @@ export default class Toast {
    * @param {object} options
    */
   static show(text, options) {
-    RNToast.show(text, options);
+    RNToast.show(text, options)
   }
 }

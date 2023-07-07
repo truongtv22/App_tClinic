@@ -16,11 +16,9 @@ import FormikInput from "app/components/FormInput/FormikInput"
 
 import { AppRoute, AuthStackScreenProps } from "app/navigators"
 
-import { useStores } from "../../models"
+import { useStores } from "app/models"
 
-interface LoginScreenProps extends AuthStackScreenProps<AppRoute.LOGIN> {}
-
-interface LoginFormValues {
+interface LoginValues {
   username: string
   password: string
 }
@@ -33,10 +31,12 @@ const loginSchema = Yup.object({
     .min(3, "${label} yêu cầu ít nhất ${min} ký tự"),
 })
 
+interface LoginScreenProps extends AuthStackScreenProps<AppRoute.LOGIN> {}
+
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({ navigation }) {
   const { authStore } = useStores()
 
-  const initialValues = useMemo<LoginFormValues>(
+  const initialValues = useMemo<LoginValues>(
     () => ({
       username: "admin",
       password: "admin@123",
@@ -49,7 +49,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
 
   const { height: heightScreen } = useWindowDimensions()
 
-  const onFormSubmit = (values: LoginFormValues) => {
+  const onFormSubmit = (values: LoginValues) => {
     authStore.login(values.username, values.password)
   }
 
@@ -61,13 +61,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
     setShouldRemember(checked)
   }
 
+  const navigateLoginSms = () => {
+    navigation.navigate(AppRoute.LOGIN_SMS)
+  }
+
   const navigateRegister = () => {
     navigation.navigate(AppRoute.REGISTER)
   }
 
-  const navigateForgetPassword = () => {}
+  const navigateForgetPass = () => {
+    navigation.navigate(AppRoute.FORGET_PASS)
+  }
 
-  const renderForm = (formik: FormikProps<LoginFormValues>) => (
+  const renderForm = (formik: FormikProps<LoginValues>) => (
     <Column space="6">
       <Column space="2">
         <FormikInput name="username" placeholder="Nhập tài khoản" autoCapitalize="none" />
@@ -89,7 +95,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
             Nhớ mật khẩu
           </CheckBox>
           <Row>
-            <TouchableOpacity onPress={navigateForgetPassword}>
+            <TouchableOpacity onPress={navigateForgetPass}>
               <Text category="s2" status="primary">
                 Quên mật khẩu?
               </Text>
@@ -103,7 +109,14 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
           </Row>
         </Row>
       </Column>
-      <Button onPress={formik.submitForm}>ĐĂNG NHẬP</Button>
+      <Column space="2">
+        <Button onPress={formik.submitForm}>ĐĂNG NHẬP</Button>
+        <TouchableOpacity style={tw.style("self-center")} onPress={navigateLoginSms}>
+          <Text category="s2" status="primary">
+            Đăng nhập qua sms
+          </Text>
+        </TouchableOpacity>
+      </Column>
     </Column>
   )
 

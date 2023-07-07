@@ -10,6 +10,12 @@ import { AppRoute, MainStackScreenProps } from "app/navigators"
 import makeStyles from "app/utils/makeStyles"
 import Header from "./sections/Header"
 import Banner from "./sections/Banner"
+import MainMenu from "./sections/MainMenu"
+import Service from "./sections/Service"
+import Suggest from "./sections/Suggest"
+import ImportantNotify from "./sections/ImportantNotify"
+import NewsCategory from "./sections/NewsCategory"
+import News from "./sections/News"
 
 interface HomeScreenProps extends MainStackScreenProps<AppRoute.HOME> {}
 
@@ -40,6 +46,12 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
         </View>
         <Header />
         <Banner />
+        <MainMenu />
+        <Service />
+        <Suggest />
+        <ImportantNotify />
+        <NewsCategory />
+        <News />
       </Content>
     </Container>
   )
