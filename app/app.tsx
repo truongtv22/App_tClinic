@@ -39,7 +39,7 @@ setupReactotron({
   // clear the Reactotron window when the app loads/reloads
   clearOnLoad: true,
   // generally going to be localhost
-  host: "10.10.20.41",
+  host: "10.10.20.35",
   // Reactotron can monitor AsyncStorage for you
   useAsyncStorage: true,
   // log the initial restored state from AsyncStorage

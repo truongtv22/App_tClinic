@@ -14,6 +14,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { AppRoute } from "./appRoutes"
 import { AuthNavigator } from "./AuthNavigator"
 import { MainNavigator } from "./MainNavigator"
+import { TabNavigator } from "./TabNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,6 +30,7 @@ import { MainNavigator } from "./MainNavigator"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParams = {
+  [AppRoute.TAB]: undefined
   [AppRoute.AUTH]: undefined
   [AppRoute.MAIN]: undefined
 }
@@ -55,13 +57,14 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isAuthenticated ? AppRoute.MAIN : AppRoute.AUTH}
+      // initialRouteName={isAuthenticated ? AppRoute.MAIN : AppRoute.AUTH}
     >
-      {isAuthenticated ? (
+      <Stack.Screen name={AppRoute.TAB} component={TabNavigator} />
+      {/* {isAuthenticated ? (
         <Stack.Screen name={AppRoute.MAIN} component={MainNavigator} />
       ) : (
         <Stack.Screen name={AppRoute.AUTH} component={AuthNavigator} />
-      )}
+      )} */}
     </Stack.Navigator>
   )
 })
