@@ -1,20 +1,28 @@
-import React, { useRef } from "react"
+import React, { useRef, useEffect } from "react"
 import PropTypes from "prop-types"
 import { BackHandler } from "react-native"
 import { useMemoizedFn } from "ahooks"
 
-const ModalContent = (props) => {
-  const { children, backPressEnabled } = props
+export interface ModalContentProps {
+  children?: React.ReactNode
+  backPressEnabled: boolean
+  onModalShow?: () => void
+  onModalHide?: () => void
+  onBackButtonPress?: () => boolean
+}
+
+const ModalContent = (props: ModalContentProps) => {
+  const { children, backPressEnabled, onModalShow, onModalHide, onBackButtonPress } = props
 
   const backButtonListenerRef = useRef(null)
 
-  React.useEffect(() => {
-    props.onModalShow?.()
+  useEffect(() => {
+    if (onModalShow) onModalShow()
   }, [])
 
-  React.useEffect(
+  useEffect(
     () => () => {
-      props.onModalHide?.()
+      if (onModalHide) onModalHide()
     },
     [],
   )
@@ -23,14 +31,17 @@ const ModalContent = (props) => {
     if (!backPressEnabled) {
       return true
     }
-    return props.onBackButtonPress?.()
+    if (onBackButtonPress) {
+      return onBackButtonPress()
+    }
+    return false
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     backButtonListenerRef.current = BackHandler.addEventListener("hardwareBackPress", onBackPress)
   }, [])
 
-  React.useEffect(
+  useEffect(
     () => () => {
       backButtonListenerRef.current?.remove()
     },

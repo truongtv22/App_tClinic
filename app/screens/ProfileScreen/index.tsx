@@ -7,9 +7,9 @@ import { View } from "react-native"
 import { Icon, Text, Button, ListItem, Layout } from "@ui-kitten/components"
 
 import makeStyles from "app/utils/makeStyles"
-import { getFullname, getShortnameAdmin } from "app/utils/userHelper"
+import { getFullname, getShortname, getShortnameAdmin } from "app/utils/userHelper"
 
-import Modal from "app/components/Modal/Modal"
+import Modal, { ModalRef } from "app/components/Modal/Modal"
 import Avatar from "app/components/Avatar/Avatar"
 import Content from "app/components/Content/Content"
 import Container from "app/components/Container/Container"
@@ -32,11 +32,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
 }) {
   const styles = useStyles()
 
-  const { authStore } = useStores()
+  const {
+    authStore,
+    userStore: { user },
+  } = useStores()
 
-  const user = {}
+  // const user = {}
 
-  const modalRef = useRef()
+  const modalRef = useRef<ModalRef>()
 
   const confirmLogout = () => {
     modalRef.current?.show()
@@ -50,6 +53,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     modalRef.current?.hide()
     setTimeout(() => {
       authStore.logout()
+      navigation.navigate(AppRoute.HOME)
     }, 200)
   }
 
@@ -57,9 +61,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     <Container>
       <Content contentContainerStyle={tw.p4}>
         <View style={[tw.flex1, tw.itemsCenter, tw.justifyCenter]}>
-          <Avatar style={[tw.w32, tw.h32]} title={getShortnameAdmin(user)} status="primary" />
+          <Avatar style={[tw.w32, tw.h32]} title={getShortname(user)} status="primary" />
           <View style={tw.h6} />
-          <Text category="h5">{getFullname(user) || user.full_name}</Text>
+          <Text category="h5">{getFullname(user)}</Text>
           <View style={tw.h1} />
           <Text category="p1" style={tw.fontSemibold}>
             {user.email}

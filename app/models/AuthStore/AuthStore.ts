@@ -1,4 +1,4 @@
-import { Instance, flow, types } from "mobx-state-tree"
+import { Instance, types, flow } from "mobx-state-tree"
 import { api } from "app/services/api"
 import * as LoadingService from "app/components/Loading"
 
@@ -24,7 +24,7 @@ export const AuthStoreModel = types
     },
   }))
   .actions((self) => ({
-    login: flow(function* (username: string, password: string) {
+    login: flow(function* login(username: string, password: string) {
       LoadingService.show()
       const data = yield api.login(username, password)
       if (data) {

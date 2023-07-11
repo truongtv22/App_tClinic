@@ -5,14 +5,14 @@ import { Icon, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 
 import renderNode from "app/utils/renderNode"
 
-function Toolbar(props) {
-  const { leftIcon, hideLeftIcon, onBackPress, ...restProps } = props
+export const BackNavAction = (props) => {
+  const { icon, onPress, ...restProps } = props
 
   const navigation = useNavigation()
 
-  const _onBackPress = React.useCallback(() => {
-    if (onBackPress) {
-      onBackPress()
+  const _onPress = React.useCallback(() => {
+    if (onPress) {
+      onPress()
     } else {
       navigation.goBack()
     }
@@ -22,21 +22,22 @@ function Toolbar(props) {
     (iconProps) =>
       renderNode(
         Icon,
-        leftIcon || { pack: "app", name: "arrow-left", width: 20, height: 20 },
+        icon || { pack: "app", name: "arrow-left", width: 20, height: 20 },
         iconProps,
       ),
-    [leftIcon],
+    [icon],
   )
 
-  const renderLeftAction = React.useCallback(
-    () => <TopNavigationAction icon={renderIcon} onPress={_onBackPress} />,
-    [],
-  )
+  return <TopNavigationAction {...restProps} icon={renderIcon} onPress={_onPress} />
+}
+
+function Toolbar(props) {
+  const { leftIcon, hideLeftIcon, onBackPress, ...restProps } = props
 
   return (
     <TopNavigation
       alignment="center"
-      accessoryLeft={!hideLeftIcon && renderLeftAction}
+      accessoryLeft={!hideLeftIcon && <BackNavAction icon={leftIcon} onPress={onBackPress} />}
       {...restProps}
     />
   )

@@ -43,15 +43,18 @@ export class Api {
     this.apisauce.setHeader("Authorization", token ? `Bearer ${token}` : "")
   }
 
-  setupInterceptor(rootStore) {
-
-  }
+  setupInterceptor(rootStore) {}
 
   async login(username: string, password: string) {
-    const response = await this.apisauce.post("api/users/login", {
-      username,
-      password,
+    const response = await this.apisauce.post("api/nhanvien/login", {
+      taikhoan: username,
+      matkhau: password,
     })
+    return response.data
+  }
+
+  async getUserInfo() {
+    const response = await this.apisauce.get("api/nhanvien/me")
     return response.data
   }
 }

@@ -122,6 +122,15 @@ export function setupReactotron(customConfig: ReactotronConfig = {}) {
       }),
     )
 
+    /**
+     * For our last trick, we are going to monkey patching console to also output to Reactotron.
+     */
+    const ogConsoleLog = console.log
+    console.log = (...args: Parameters<typeof console.log>) => {
+      ogConsoleLog(...args)
+      Reactotron.log(...args)
+    }
+
     // connect to the app
     Reactotron.connect()
 

@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Image, TouchableOpacity, ImageBackground, useWindowDimensions } from "react-native"
+import { View, Image, TouchableOpacity, ImageBackground, useWindowDimensions } from "react-native"
 import { Text, Button, CheckBox } from "@ui-kitten/components"
 import { Formik, FormikProps } from "formik"
 import * as Yup from "yup"
@@ -13,6 +13,7 @@ import Header from "app/components/Header/Header"
 import Content from "app/components/Content/Content"
 import Container from "app/components/Container/Container"
 import FormikInput from "app/components/FormInput/FormikInput"
+import Toolbar from "app/components/Toolbar/Toolbar"
 
 import { AppRoute, AuthStackScreenProps } from "app/navigators"
 
@@ -124,8 +125,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen({
     <Container>
       <Content level="1" keyboardEnabled safeAreaEnabled={false}>
         <ImageBackground style={{ height: 0.35 * heightScreen }} source={ImageAssets.BG_DOCTOR}>
-          <Header style={tw.style("flex-1 items-center justify-center bg-transparent")}>
-            <Image source={ImageAssets.LOGO} />
+          <Header style={tw.style("flex-1 bg-transparent")}>
+            <Toolbar style={tw.style("bg-transparent")} />
+            <View style={tw.style("items-center justify-center")}>
+              <Image source={ImageAssets.LOGO} />
+            </View>
           </Header>
         </ImageBackground>
         <Content level="1" style={tw.style("-mt-2 rounded-t-2xl")}>

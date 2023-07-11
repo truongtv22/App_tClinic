@@ -4,11 +4,12 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import React from "react"
+import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import Config from "app/config"
+import { api } from "app/services/api"
 import { useStores } from "app/models"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { AppRoute } from "./appRoutes"
@@ -51,8 +52,19 @@ const Stack = createNativeStackNavigator<AppStackParams>()
 
 const AppStack = observer(function AppStack() {
   const {
-    authStore: { isAuthenticated },
+    authStore: { token, isAuthenticated },
+    userStore: { getUserInfo },
   } = useStores()
+
+  useEffect(() => {
+    api.setToken(token)
+  }, [token])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getUserInfo()
+    }
+  }, [isAuthenticated])
 
   return (
     <Stack.Navigator
@@ -60,11 +72,11 @@ const AppStack = observer(function AppStack() {
       // initialRouteName={isAuthenticated ? AppRoute.MAIN : AppRoute.AUTH}
     >
       <Stack.Screen name={AppRoute.TAB} component={TabNavigator} />
-      {/* {isAuthenticated ? (
+      {isAuthenticated ? (
         <Stack.Screen name={AppRoute.MAIN} component={MainNavigator} />
       ) : (
         <Stack.Screen name={AppRoute.AUTH} component={AuthNavigator} />
-      )} */}
+      )}
     </Stack.Navigator>
   )
 })

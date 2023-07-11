@@ -1,30 +1,20 @@
 /**
  *
- * @param {object} patient
- * @param {string} patient.hoten
+ * @param {object} user
+ * @param {string} user.hoten
  */
-export function getFullname(patient) {
-  return patient.hoten
-}
-
-/**
- *
- * @param {object} patient
- * @param {string} patient.hoten
- */
-export function getShortname(patient) {
-  const fullname = getFullname(patient)
-  return fullname ? convertShortname(fullname) : "user"
+export function getFullname(user) {
+  return user.hoten
 }
 
 /**
  *
  * @param {object} user
- * @param {string} user.full_name
+ * @param {string} user.hoten
  */
-export function getShortnameAdmin(user) {
-  const fullname = user.full_name
-  return fullname ? convertShortname(fullname) : "user"
+export function getShortname(user) {
+  const fullname = getFullname(user)
+  return convertShortname(fullname)
 }
 
 /**
